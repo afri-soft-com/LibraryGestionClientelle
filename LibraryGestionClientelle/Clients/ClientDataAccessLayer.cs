@@ -25,8 +25,8 @@ namespace LibraryGestionClientelle.Clients
                     
 
                     string query = "INSERT INTO tClients" +
-                                    "(PhoneClient, PseudoClient, PinClient, CompteClient, CodeClient, IdCategorieUt)" +
-                                    "VALUES(@PhoneClient, @PseudoClient, @PinClient, @CompteClient, @CodeClient, @IdCategorieUt)";
+                                    "(PhoneClient, PseudoClient, PinClient, CompteClient, CodeClient)" +
+                                    "VALUES(@PhoneClient, @PseudoClient, @PinClient, @CompteClient, @CodeClient)";
 
                     SqlCommand commande = new SqlCommand(query, connection);
                     int code_client = getDernierClient();
@@ -36,7 +36,7 @@ namespace LibraryGestionClientelle.Clients
                     commande.Parameters.AddWithValue("@PinClient", clientModel.PinClient);
                     commande.Parameters.AddWithValue("@CompteClient", clientModel.CompteClient);
                     commande.Parameters.AddWithValue("@CodeClient", code_client);
-                    commande.Parameters.AddWithValue("@IdCategorieUt", clientModel.IdCategorieUt);
+                    //commande.Parameters.AddWithValue("@IdCategorieUt", clientModel.IdCategorieUt);
                                    
 
                     return commande.ExecuteNonQuery();
@@ -162,6 +162,8 @@ namespace LibraryGestionClientelle.Clients
                         objCust.PinClient = _Reader["PinClient"].ToString();
                         objCust.CompteClient = _Reader["CompteClient"].ToString();
                         objCust.CodeClient = _Reader["CodeClient"].ToString();
+                        try { objCust.Niveau = Convert.ToInt32(_Reader["Niveau"].ToString()); } catch { objCust.Niveau = 0; }
+                       
 
                         _listeClient.Add(objCust);
                     }

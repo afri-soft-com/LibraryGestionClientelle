@@ -12,5 +12,6 @@ namespace LibraryGestionClientelle.Clients
         public string PinClient { get; set; }
         public string CompteClient { get; set; }
         public string CodeClient { get; set; }
+        public string IdCategorieUt { get; set; }
     }
 }

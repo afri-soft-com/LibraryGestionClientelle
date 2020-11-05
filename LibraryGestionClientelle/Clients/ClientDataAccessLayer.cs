@@ -25,8 +25,8 @@ namespace LibraryGestionClientelle.Clients
                     
 
                     string query = "INSERT INTO tClients" +
-                                    "(PhoneClient, PseudoClient, PinClient, CompteClient, CodeClient)" +
-                                    "VALUES(@PhoneClient, @PseudoClient, @PinClient, @CompteClient, @CodeClient)";
+                                    "(PhoneClient, PseudoClient, PinClient, CompteClient, CodeClient, IdCategorieUt)" +
+                                    "VALUES(@PhoneClient, @PseudoClient, @PinClient, @CompteClient, @CodeClient, @IdCategorieUt)";
 
                     SqlCommand commande = new SqlCommand(query, connection);
                     int code_client = getDernierClient();
@@ -36,8 +36,8 @@ namespace LibraryGestionClientelle.Clients
                     commande.Parameters.AddWithValue("@PinClient", clientModel.PinClient);
                     commande.Parameters.AddWithValue("@CompteClient", clientModel.CompteClient);
                     commande.Parameters.AddWithValue("@CodeClient", code_client);
-
-                   
+                    commande.Parameters.AddWithValue("@IdCategorieUt", clientModel.IdCategorieUt);
+                                   
 
                     return commande.ExecuteNonQuery();
               

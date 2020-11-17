@@ -89,5 +89,24 @@ namespace WebApisGestionClientelle.Controllers
                 throw;
             }
         }
+
+
+        [HttpGet]
+        public double SoldeDePointParClient(string CodeClient)
+        {
+
+            try
+            {
+                ClientDataAccessLayer objCrdClient = new ClientDataAccessLayer();
+                double Solde = 0;
+                Solde = objCrdClient.BalanceDePoints(CodeClient);
+                return Solde;
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

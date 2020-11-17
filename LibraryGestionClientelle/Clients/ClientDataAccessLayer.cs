@@ -295,5 +295,45 @@ namespace LibraryGestionClientelle.Clients
         }
 
 
+        public  double BalanceDePoints( string CodeClient)
+        {
+            using (SqlConnection Conn = new SqlConnection(ClassVariableGlobal.seteconnexion()))
+
+                try
+                {
+                    //  Conn.Open();
+                    double dernier_operation = 0;
+
+                    if (Conn.State != System.Data.ConnectionState.Open)
+                        Conn.Open();
+                    string s = "SELECT        BalancePoint FROM            View_BalaceDePointClient " +
+" WHERE(CodeClient = @CodeClient) ";
+                    SqlCommand objCommand = new SqlCommand(s, Conn);
+                    objCommand.Parameters.AddWithValue("@CodeClient", CodeClient); ;
+                    objCommand.CommandType = CommandType.Text;
+
+                    dernier_operation = double.Parse(objCommand.ExecuteScalar().ToString()) ;
+                    return dernier_operation ;
+                }
+                catch
+                {
+                    return 0;
+                    throw;
+                }
+                finally
+                {
+                    if (Conn != null)
+                    {
+                        if (Conn.State == ConnectionState.Open)
+                        {
+                            Conn.Close();
+                            Conn.Dispose();
+                        }
+                    }
+                }
+        }
+
+
+
     }
 }

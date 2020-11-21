@@ -33,6 +33,24 @@ namespace WebApisGestionClientelle.Controllers
             }
         }
 
+        [HttpGet]
+        public IEnumerable<ConversionPointModel> GetLesPointsConvertisTousParPeriode(string codeClient, DateTime date1, DateTime date2)
+        {
+            try
+            {
+                ConversionPointDataAccessLayer converDal = new ConversionPointDataAccessLayer();
+                List<ConversionPointModel> listeConversion = converDal.GetListePointsConvertisTouParperiode(codeClient, date1, date2);
+
+                return listeConversion;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+
 
     }
 }

@@ -122,8 +122,64 @@ namespace LibraryGestionClientelle.ConversionPoint
 
         }
 
+        // Liste point converti par periode par client
+
+        public List<ConversionPointModel> GetListePointsConvertisTouParperiode(string codeClient, DateTime date1, DateTime date2)
+        {
+            using (SqlConnection Conn = new SqlConnection(ClassVariableGlobal.SetConnexion()))
+
+                try
+                {
+                    Conn.Open();
+                    List<ConversionPointModel> _listePointConvertis = new List<ConversionPointModel>();
+
+                    if (Conn.State != System.Data.ConnectionState.Open)
+                        Conn.Open();
+
+                    string s = "ConversionPourLaPeriode";
+
+                    //SELECT * FROM tClasse
+                    SqlCommand objCommand = new SqlCommand(s, Conn);
+                    objCommand.CommandType = CommandType.StoredProcedure;
+                    objCommand.Parameters.AddWithValue("@CodeClient", codeClient);
+                    objCommand.Parameters.AddWithValue("@Date1", date1);
+                    objCommand.Parameters.AddWithValue("@Date2", date2);
+                    SqlDataReader _Reader = objCommand.ExecuteReader();
+
+                    while (_Reader.Read())
+                    {
+                        ConversionPointModel objCust = new ConversionPointModel();
+
+                        // objCust.IdFacture = Convert.ToInt32(_Reader["IdFacture"]);
+                        objCust.CodeClient = _Reader["codeClient"].ToString();
+                        objCust.CodeConversion = (_Reader["codeConversion"].ToString());
+                        try { objCust.DateOperation = (_Reader["dateOperation"].ToString()); } catch { objCust.DateOperation = DateTime.Now.ToString(); }
+                        try { objCust.PointConvertie = _Reader["pointConvertie"].ToString(); } catch { objCust.PointConvertie = "0"; }
+                        objCust.RefOperation = (_Reader["refOperation"].ToString());
 
 
+                        _listePointConvertis.Add(objCust);
+                    }
+
+                    return _listePointConvertis;
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    if (Conn != null)
+                    {
+                        if (Conn.State == ConnectionState.Open)
+                        {
+                            Conn.Close();
+                            Conn.Dispose();
+                        }
+                    }
+                }
+
+        }
 
 
     }

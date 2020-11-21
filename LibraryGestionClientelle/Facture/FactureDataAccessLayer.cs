@@ -167,6 +167,134 @@ namespace LibraryGestionClientelle.Facture
         }
 
 
+        // Liste facture par periode par client
+        public List<FactureModel> GetListeFactureTouParperiode( string codeClient, DateTime date1, DateTime date2)
+        {
+            using (SqlConnection Conn = new SqlConnection(ClassVariableGlobal.SetConnexion()))
+
+                try
+                {
+                    Conn.Open();
+                    List<FactureModel> _listeFacture = new List<FactureModel>();
+
+                    if (Conn.State != System.Data.ConnectionState.Open)
+                        Conn.Open();
+
+                    string s = "FacturePourLaPeriode";
+
+                    //SELECT * FROM tClasse
+                    SqlCommand objCommand = new SqlCommand(s, Conn);
+                    objCommand.CommandType = CommandType.StoredProcedure;
+                    objCommand.Parameters.AddWithValue("@CodeClient", codeClient);
+                    objCommand.Parameters.AddWithValue("@Date1", date1);
+                    objCommand.Parameters.AddWithValue("@Date2", date2);
+                    SqlDataReader _Reader = objCommand.ExecuteReader();
+
+                    while (_Reader.Read())
+                    {
+                        FactureModel objCust = new FactureModel();
+
+                       // objCust.IdFacture = Convert.ToInt32(_Reader["IdFacture"]);
+                        objCust.RefFacture = _Reader["RefFacture"].ToString();
+                        try { objCust.MontantFacture = Convert.ToDouble(_Reader["Quantite"]); } catch { objCust.MontantFacture = 0; }
+                      
+                       
+                        objCust.QuantiteFacture = Convert.ToDouble(_Reader["Montant"]);
+                        objCust.CodeClientFacture = _Reader["CodeClient"].ToString();
+                        try { objCust.DateFacture = Convert.ToDateTime(_Reader["DateFacture"]); } catch { objCust.DateFacture = DateTime.Now; }
+                        
+                        objCust.MontantRistourne = Convert.ToDouble(_Reader["MontantRistourne"]);
+
+
+                        _listeFacture.Add(objCust);
+                    }
+
+                    return _listeFacture;
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    if (Conn != null)
+                    {
+                        if (Conn.State == ConnectionState.Open)
+                        {
+                            Conn.Close();
+                            Conn.Dispose();
+                        }
+                    }
+                }
+
+        }
+
+
+        // Somme des points facture par periode par client
+
+        public List<FactureModel> GetSommePointsFactureTouParperiode(string codeClient, DateTime date1, DateTime date2)
+        {
+            using (SqlConnection Conn = new SqlConnection(ClassVariableGlobal.SetConnexion()))
+
+                try
+                {
+                    Conn.Open();
+                    List<FactureModel> _listeFacture = new List<FactureModel>();
+
+                    if (Conn.State != System.Data.ConnectionState.Open)
+                        Conn.Open();
+
+                    string s = "SommeDePointFacturePourUnePeriode";
+
+                    //SELECT * FROM tClasse
+                    SqlCommand objCommand = new SqlCommand(s, Conn);
+                    objCommand.CommandType = CommandType.StoredProcedure;
+                    objCommand.Parameters.AddWithValue("@CodeClient", codeClient);
+                    objCommand.Parameters.AddWithValue("@Date1", date1);
+                    objCommand.Parameters.AddWithValue("@Date2", date2);
+                    SqlDataReader _Reader = objCommand.ExecuteReader();
+
+                    while (_Reader.Read())
+                    {
+                        FactureModel objCust = new FactureModel();
+
+                        // objCust.IdFacture = Convert.ToInt32(_Reader["IdFacture"]);
+                        objCust.RefFacture = _Reader["RefFacture"].ToString();
+                        try { objCust.MontantFacture = Convert.ToDouble(_Reader["Quantite"]); } catch { objCust.MontantFacture = 0; }
+
+
+                        objCust.QuantiteFacture = Convert.ToDouble(_Reader["Montant"]);
+                        objCust.CodeClientFacture = _Reader["CodeClient"].ToString();
+                        try { objCust.DateFacture = Convert.ToDateTime(_Reader["DateFacture"]); } catch { objCust.DateFacture = DateTime.Now; }
+
+                        objCust.MontantRistourne = Convert.ToDouble(_Reader["MontantRistourne"]);
+
+
+                        _listeFacture.Add(objCust);
+                    }
+
+                    return _listeFacture;
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    if (Conn != null)
+                    {
+                        if (Conn.State == ConnectionState.Open)
+                        {
+                            Conn.Close();
+                            Conn.Dispose();
+                        }
+                    }
+                }
+
+        }
+
+        
+
         // Enregistrement du type de ristourne
 
         public int InsertTypeRistourne(TypeRistourne typeRistourne)

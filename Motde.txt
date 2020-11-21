@@ -1,1 +1,12 @@
 Freedum@099
+
+<publishData>
+   <publishProfile 
+   publishUrl="https://afrisofttech-002-site22.btempurl.com:8172/msdeploy.axd?site=afrisofttech-002-site22" 
+   msdeploySite="afrisofttech-002-site22" 
+   destinationAppUrl="http://afrisofttech-002-site22.btempurl.com/" 
+   profileName="Default Settings" 
+   publishMethod="MSDeploy" userName="afrisofttech-002" 
+   AllowUntrustedCertificate="True"
+   /> 
+</publishData>

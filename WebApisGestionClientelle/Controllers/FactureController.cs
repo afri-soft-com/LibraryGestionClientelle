@@ -128,6 +128,23 @@ namespace WebApisGestionClientelle.Controllers
             }
         }
 
+        //Get les factures from Facture suivant le code client et par periode
+        [HttpGet]
+        public IEnumerable<FactureModel> GetLesFacturesParClientParPeriode(string codeClient, DateTime date1, DateTime date2)
+        {
+            try
+            {
+                FactureDataAccessLayer factureDataAccess = new FactureDataAccessLayer();
+                List<FactureModel> listeFactres = factureDataAccess.GetListeFactureTouParperiode(codeClient, date1, date2);
+
+                return listeFactres;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         //Get les factures from Facture suivant le code client
 
         [HttpGet]

@@ -48,6 +48,21 @@ namespace WebApisGestionClientelle.Controllers
             }
         }
 
+        [HttpGet]
+        public List<DashBoardClient>listedesBalancedetousLesClients()
+        {
+            try
+            {
+                DashBoardAdminDataAccessLayer converDal = new DashBoardAdminDataAccessLayer();
+                List<DashBoardClient> listeConversion = converDal.GetListeBalancedePoint();
+
+                return listeConversion;
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
     }
 }

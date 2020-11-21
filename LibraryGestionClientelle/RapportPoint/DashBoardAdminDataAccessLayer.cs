@@ -206,5 +206,68 @@ namespace LibraryGestionClientelle.RapportPoint
                 }
         }
 
+
+        public List<DashBoardClient> GetListeBalancedePoint()
+        {
+            using (SqlConnection Conn = new SqlConnection(ClassVariableGlobal.SetConnexion()))
+
+                try
+                {
+                    Conn.Open();
+                    List<DashBoardClient> _listePointConvertis = new List<DashBoardClient>();
+
+                    if (Conn.State != System.Data.ConnectionState.Open)
+                        Conn.Open();
+
+                    string s = "Pro_BalanceClient";
+
+                    //SELECT * FROM tClasse
+                    SqlCommand objCommand = new SqlCommand(s, Conn);
+                    objCommand.CommandType = CommandType.StoredProcedure;
+                    //objCommand.Parameters.AddWithValue("@CodeClient", codeClient);
+                    //objCommand.Parameters.AddWithValue("@Date1", date1);
+                    //objCommand.Parameters.AddWithValue("@Date2", date2);
+                    SqlDataReader _Reader = objCommand.ExecuteReader();
+
+                    while (_Reader.Read())
+                    {
+                        DashBoardClient objCust = new DashBoardClient();
+
+                        // objCust.IdFacture = Convert.ToInt32(_Reader["IdFacture"]);
+                        objCust.CodeClient = _Reader["codeClient"].ToString();
+                        objCust.PseudoClient = (_Reader["PseudoClient"].ToString());
+                      //  objCust.CompteClient = (_Reader["CompteClient"].ToString());
+                        objCust.PseudoClient = (_Reader["PseudoClient"].ToString());
+                        try { objCust.BalanseDePoint = Convert.ToDouble( (_Reader["BalancePoint"])); } catch { objCust.BalanseDePoint = 0; }
+                        try { objCust.PointFacture = Convert.ToDouble(_Reader["SommeRistourne"]); } catch { objCust.PointFacture = 0; }
+                        try { objCust.PointConvertie = Convert.ToDouble(_Reader["SommeCoverti"]); } catch { objCust.PointConvertie = 0; }
+
+
+                        // objCust.RefOperation = (_Reader["refOperation"].ToString());
+
+
+                        _listePointConvertis.Add(objCust);
+                    }
+
+                    return _listePointConvertis;
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    if (Conn != null)
+                    {
+                        if (Conn.State == ConnectionState.Open)
+                        {
+                            Conn.Close();
+                            Conn.Dispose();
+                        }
+                    }
+                }
+
+        }
+
     }
 }

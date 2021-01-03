@@ -1,0 +1,10 @@
+﻿<publishData>
+   <publishProfile 
+   publishUrl="https://afrisofttech-003-site2.itempurl.com:8172/msdeploy.axd?site=afrisofttech-003-site2" 
+   msdeploySite="afrisofttech-003-site2" 
+   destinationAppUrl="http://afrisofttech-003-site2.itempurl.com/" 
+   profileName="Default Settings" 
+   publishMethod="MSDeploy" userName="afrisofttech-003" 
+   AllowUntrustedCertificate="True"
+   /> 
+</publishData>

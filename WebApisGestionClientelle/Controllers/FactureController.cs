@@ -75,6 +75,27 @@ namespace WebApisGestionClientelle.Controllers
             }
         }
 
+
+        //Post le taux de ristourne
+        [HttpPost]
+        public string ModifierParametreRistourne(FactureDataAccessLayer.TauxRistourne objCust)
+        {
+            try
+            {
+                FactureDataAccessLayer tEnregistrementClient = new FactureDataAccessLayer();
+                Int32 message = 0;
+
+                message = tEnregistrementClient.ModifierParametreTaux(objCust);
+
+                return message.ToString();
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         //Get tous from typeRistourne
         [HttpGet]
         public IEnumerable<FactureDataAccessLayer.TypeRistourne> GetListeTypeRistourne()

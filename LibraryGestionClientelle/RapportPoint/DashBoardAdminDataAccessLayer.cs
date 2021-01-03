@@ -236,7 +236,7 @@ namespace LibraryGestionClientelle.RapportPoint
                         // objCust.IdFacture = Convert.ToInt32(_Reader["IdFacture"]);
                         objCust.CodeClient = _Reader["codeClient"].ToString();
                         objCust.PseudoClient = (_Reader["PseudoClient"].ToString());
-                      //  objCust.CompteClient = (_Reader["CompteClient"].ToString());
+                        objCust.PhoneClient = (_Reader["PhoneClient"].ToString());
                         objCust.PseudoClient = (_Reader["PseudoClient"].ToString());
                         try { objCust.BalanseDePoint = Convert.ToDouble( (_Reader["BalancePoint"])); } catch { objCust.BalanseDePoint = 0; }
                         try { objCust.PointFacture = Convert.ToDouble(_Reader["SommeRistourne"]); } catch { objCust.PointFacture = 0; }

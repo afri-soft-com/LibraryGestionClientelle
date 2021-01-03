@@ -21,6 +21,11 @@ namespace LibraryGestionClientelle.Facture
             public int IdTaux { get; set; }
             public double TauxSurMontant { get; set; }
             public double TauxSurQuantite { get; set; }
+
+            public double tParametreTaux { get; set; }
+
+            public int CompteRistourne { get; set; }
+            
         }
 
         // Methode pour enregistrer une facture
@@ -381,13 +386,36 @@ namespace LibraryGestionClientelle.Facture
                 connection.Open();
 
                 string query = "INSERT INTO tParametreTaux"+
-                               " (TauxRistourneMontant, TauxRistourneQuantite)"+
-                                " VALUES(@TauxRistourneMontant, @TauxRistourneQuantite)";
+                               " (TauxRistourneMontant, TauxRistourneQuantite,CompteRistourne)" +
+                                " VALUES(@TauxRistourneMontant, @TauxRistourneQuantite,@CompteRistourne)";
 
                 SqlCommand commande = new SqlCommand(query, connection);
 
                 commande.Parameters.AddWithValue("@TauxRistourneMontant", taux.TauxSurMontant);
                 commande.Parameters.AddWithValue("@TauxRistourneQuantite", taux.TauxSurQuantite);
+                commande.Parameters.AddWithValue("@CompteRistourne", taux.CompteRistourne);
+
+                return commande.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public int ModifierParametreTaux(TauxRistourne taux)
+        {
+            using (SqlConnection connection = new SqlConnection(ClassVariableGlobal.SetConnexion()))
+            {
+                connection.Open();
+
+                string query = "UPDATE       tParametreTaux " +
+ " SET TauxRistourneMontant = @TauxRistourneMontant, TauxRistourneQuantite = @TauxRistourneQuantite, CompteRistourne = @CompteRistourne " +
+" WHERE(IdParametre = 1)";
+
+                SqlCommand commande = new SqlCommand(query, connection);
+
+                commande.Parameters.AddWithValue("@TauxRistourneMontant", taux.TauxSurMontant);
+                commande.Parameters.AddWithValue("@TauxRistourneQuantite", taux.TauxSurQuantite);
+                commande.Parameters.AddWithValue("@CompteRistourne", taux.CompteRistourne);
 
                 return commande.ExecuteNonQuery();
 
@@ -422,6 +450,7 @@ namespace LibraryGestionClientelle.Facture
                         objCust.IdTaux = Convert.ToInt32(_Reader["IdParametre"]);
                         objCust.TauxSurMontant = Convert.ToDouble(_Reader["TauxRistourneMontant"]);
                         objCust.TauxSurQuantite = Convert.ToDouble(_Reader["TauxRistourneQuantite"]);
+                        objCust.CompteRistourne = Convert.ToInt32(_Reader["CompteRistourne"]);
 
                         _listeTauxRistourne.Add(objCust);
                     }
